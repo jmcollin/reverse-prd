@@ -6,11 +6,20 @@
 - **P1 — Integrity & sync**: cross-authentication, status synchronization, data consistency, critical webhooks/events, especially across systems or modules.
 - **P2 — Secondary**: search, display, non-critical admin features.
 
-Only P0 domains require the full audit below. P1 gets the invariants table; P2 gets states and rules only.
+Only P0 domains require the full audit below. P1 gets the invariants table and skips failure modes; P2 gets states and rules only. A domain that holds a bridge between stacks or stores audits I4 whatever its priority (see `multi-stack.md`).
 
 ## Invariants (P0 mandatory)
 
-For each P0 flow, give a verdict `PROTECTED` / `PARTIAL` / `ABSENT` / `UNKNOWN`, with the protecting mechanism (constraint, lock, idempotency key, check) and its evidence:
+For each P0 flow, give a verdict with the protecting mechanism (constraint, lock, idempotency key, check) and its evidence:
+
+| Verdict | Meaning |
+|---|---|
+| `PROTECTED` | A mechanism read in code enforces the invariant on every path that writes. |
+| `PARTIAL` | A mechanism exists but leaves a path open (e.g. sequential retries covered, concurrent ones not). Say which path. |
+| `ABSENT` | The writing paths were read and no mechanism protects the invariant. |
+| `UNKNOWN` | The writing paths, or the mechanism, were not read. Becomes a gray area with a question; never use it for "read and found nothing" (that is `ABSENT`). |
+
+These verdicts qualify an invariant; they are distinct from domain statuses (`COVERED`, `PARTIAL`…) defined in SKILL.md.
 
 | # | Invariant |
 |---|---|

@@ -10,7 +10,7 @@ Read this when the system has several stacks, several services sharing data, or 
 
 ## Extra checks
 
-- **Invariant I4 is P0** for every bridge: durable divergence without reconciliation is a top risk.
+- **Invariant I4 is mandatory** for every domain that holds a bridge, whatever its priority: durable divergence without reconciliation is a top risk.
 - **Partial failure across stacks**: entity created in stack A, the matching process in stack B fails (and the reverse). Is there a retry, a compensating action, a reconciliation job, a manual procedure — or nothing?
 - **Clock and ordering**: events from both stacks can arrive out of order; check whether status updates can go backwards.
 - **Auth across stacks**: how identity and roles are propagated; can one stack trust a claim the other did not verify?
@@ -23,6 +23,6 @@ Read this when the system has several stacks, several services sharing data, or 
 
 ## Dossier additions
 
-- Section 1: explicit bridge map (diagram) between stacks.
-- Section 6: reconciliation inventory per bridge.
-- Section 7: cross-system consistency risks and missing reconciliation.
+- Section 4: explicit bridge map (diagram) between stacks.
+- Section 7: reconciliation inventory per bridge.
+- Section 9: cross-system consistency risks and missing reconciliation.
